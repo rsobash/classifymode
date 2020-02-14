@@ -1,0 +1,198 @@
+body {
+	font-family: helvetica, arial, verdana, helvetica, sans-serif;
+	font-size: 12px;
+	cursor: default;
+	background-color: #FFFFFF
+}
+* {
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+}
+html {
+	height: 100%;
+	margin-bottom: 1px;
+}
+div#container {
+	width: 1200px;
+	margin: 0px auto 0px auto;
+	text-align: center;
+	background-color: #FFFFFF;
+}
+div#header {
+        display: inline-block;
+        width: 1200px;
+	padding: 10px 0px 0px 5px;
+	border-bottom: 2px solid #000;
+	text-align: left;
+	font-size: 28px;
+        color: #cc0000;
+        font-family: Helvetica, Arial, Verdana, Helvetica, sans-serif;
+        font-weight: 500;
+}
+hr {
+	margin: 10px 0px 10px 0px;
+}
+h2 {
+	font-size: 15px;
+	color: gray;
+	font-family: Helvetica, Arial, Verdana, Helvetica, sans-serif;
+	font-weight: 300;
+}
+h3 {
+	color: #cc0000;
+	font-size: 22px;
+	font-weight: 300;
+	padding-bottom: 5px;
+}
+h4 {
+	font-size: 18px;
+}
+button { border-radius: 0px; background-color: #ccc; box-sizing: border-box; box-shadow: none; font-family: Helvetica, Arial; font-weight: 200; border-width: 1px solid #aaa; font-size: 20px; margin: 5px; padding: 10px; cursor: pointer; }
+button.selected { background-color: #de2d26; color: #fff; }
+button.submitbutton { width: 300px; }
+div#img-container {
+	background-color: #FFFFFF;
+	width: 800px; 
+	height: auto;
+	display: table-cell;
+        vertical-align: middle;
+	display: none;
+	float: left;
+	padding-top:5px;
+}
+
+div#img-container img {
+	margin: auto;
+	height: auto;
+        width: 700px;
+}
+
+div#text-container {
+	background-color: white;
+	padding: 10px;
+	font-size:14px;
+	display: none;
+	float: left;
+}
+
+div.subclassify { padding: 0px 0px 20px 0px; }
+div.subclassify button { font-size: 14px;  }
+
+img.icon {
+	width: 30px;
+	height: 30px;
+        padding: 0px 5px 0px 5px;
+}
+img.iconbig {
+        width: 90px;
+        height: 90px;
+        padding: 5px 0px 5px 0px;
+}
+#outcome {
+	font-size: 18px;
+	padding: 20px 0px 0px 0px;
+}
+#probtext {
+	font-size: 18px;
+	font-weight: bold;
+}
+#guidtext {
+	font-size: 18px;
+	font-style: italic;
+}
+form {
+	font-size: 22px;
+}
+input#text1button, input#declinebutton, input#text1abutton, input#text2button, input#protect, input#noprotect, input#nexttrial, input#startbutton, input#continuebutton, input#resetbutton {
+	margin: 10px;
+	padding: 10px;
+	width: 150px;
+}
+input#protect {
+	margin-right: 20px;
+}
+input#noprotect {
+	margin-left: 20px;
+}
+input#nexttrial {
+	width: 250px;
+}
+input#idnumber {
+	font-size: 18px;	
+	width: 120px;	
+}
+div#main {
+	float: left;
+	width: 100%;
+	background-color: #FFFFFF;
+	color: black;
+	text-align: center;
+}
+div#progressbar {
+	width: 100%;
+	border: 1px solid gray;
+	margin: 5px 0px 2px 0px;
+	display: none;
+        text-align: left;
+}
+div#expnum {
+	text-align: left;
+	width: 100%;
+	background-color: #BFBFBF;
+	border-right: 1px solid gray;
+	font-weight: bold;
+	height: 10px;
+}
+p {
+	color: black;
+	line-height: 20px;
+	padding: 5px;
+}
+a {
+	color: #cc0000;
+	text-decoration: none;
+}
+a:hover {
+	color: #cc0000;
+	text-decoration: underline;
+}
+#text1, #text1a, #text2, #text3, #text4, #text5, #confidencepoll {
+	font-size: 20px;
+	padding: 10px 10px 30px 10px;
+}
+#debrief {
+	font-size: 20px;
+	padding: 30px 0px 30px 0px;
+}
+#text1a, #text2, #text3, #text4, #text5, #debrief, #confidencepoll {
+	display: none;
+}
+#text3 img {
+	border: 2px solid #000;
+}
+#intro1text {
+}
+#screenshotdiv {
+	margin: 10px 0px 10px 0px;
+}
+.blue { color: blue; }
+.red  { color: red; }
+.left { float: left; }
+.right { float: right; }
+#rules {
+	text-align: left;
+	margin: 30px 0px 30px 0px;
+        padding: 15px 25px 15px 25px;	
+	background-color: #DFDFDF;
+	border: 1px solid gray;
+}
+.rollover { cursor:pointer;float: left; width: 50px; padding: 10px; font-size: 18px; }
+.rollover.selected { background-color: #bbb;  }
+#identry {
+        margin: 30px 0px 30px 0px;
+        background-color: #DFDFDF;
+        border: 1px solid gray;
+        padding: 20px 40px 20px 40px;
+        font-size: 18px;
+}}
