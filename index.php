@@ -59,24 +59,21 @@ In addition to the classification, you will provide a confidence level of your c
 
 </div> <!-- end text2 -->
 
-
 <div id="img-container">
+    <div id="img"></div>
 
-<div id="img"></div>
-<br style="break:both;"/>
+    <div id="rollover-container" class="shaded-block">
+    <div id="m2" class="rollover hour">-2hr</div>
+    <div id="m1" class="rollover hour">-1hr</div>
+    <div id="p0" class="rollover hour">0hr</div>
+    <div id="p1" class="rollover hour">+1hr</div>
+    <div id="p2" class="rollover hour">+2hr</div>
 
-<div id="rollover-container" style="text-align:center;padding-left:200px;width:600px;">
-<div id="m2" class="rollover">-2hr</div>
-<div id="m1" class="rollover">-1hr</div>
-<div id="p0" class="rollover selected">0hr</div>
-<div id="p1" class="rollover">+1hr</div>
-<div id="p2" class="rollover">+2hr</div>
+    <div id="cref" class="rollover field">CREF</div>
+    <div id="t2" class="rollover field">T2</div>
 
-<div id="cref" class="rollover">CREF</div>
-<div id="t2" class="rollover">T2</div>
-<br style="break:both;"/>
-
-</div>
+    <br style="clear:both;"/>
+    </div>
 
 </div>
 
@@ -84,7 +81,7 @@ In addition to the classification, you will provide a confidence level of your c
 
 <div id="classify-container">
 
-<div id="classify-type" style="border:1px solid #aaa;background-color:#EFEFEF;padding:10px;">
+<div id="classify-type" class="shaded-block">
 
 <div id="subclassify-qlcs" class="subclassify">
 <h4>Quasi-Linear Convective System</h4>
@@ -93,11 +90,10 @@ In addition to the classification, you will provide a confidence level of your c
 </div>
 
 <div id="subclassify-supercell" class="subclassify">
-<h4>Supercell</h4>
+<h4>Supercell</h4> 
 <button type="button" class="typebutton" id="supercell1" name="S1">Discrete Supercell</button><br/>
 <button type="button" class="typebutton" id="supercell2" name="S2">Supercell embedded within line</button><br/>
 <button type="button" class="typebutton" id="supercell3" name="S3">Supercell embedded within cell cluster</button>
-
 </div>
 
 <div id="subclassify-disorganized" class="subclassify">
@@ -107,8 +103,8 @@ In addition to the classification, you will provide a confidence level of your c
 </div>
 
 </div> <!-- end classify-type -->
-
-<div id="classify-confidence" style="border:1px solid #aaa; background-color:#EFEFEF;padding:10px;margin-top:10px;">
+<br/>
+<div id="classify-confidence" class="shaded-block">
 <h4>Classification confidence</h4>
 <button class="confbutton" name="1" type="button">1</button>
 <button class="confbutton" name="2" type="button">2</button>
@@ -117,14 +113,12 @@ In addition to the classification, you will provide a confidence level of your c
 <button class="confbutton" name="5" type="button">5</button><br/>
 Low confidence (1)  -----  High confidence (5)
 </div>
-
-<div id="classify-submit" style="border:1px solid #aaa; background-color:#bbb;padding:10px;margin-top:10px;">
+<br/>
+<div id="classify-submit" class="shaded-block">
 <button class="submitbutton" type="button">Classify!</button>
 </div>
 
 </div>
-
-
 
 </div> <!-- end text-container -->
 

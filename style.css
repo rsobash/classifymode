@@ -60,6 +60,7 @@ div#img-container {
 	display: none;
 	float: left;
 	padding-top:5px;
+	position:relative;
 }
 
 div#img-container img {
@@ -78,7 +79,11 @@ div#text-container {
 
 div.subclassify { padding: 0px 0px 20px 0px; }
 div.subclassify button { font-size: 14px;  }
-
+div.shaded-block {
+        border:1px solid #aaa;
+        background-color:#EFEFEF;
+        padding:10px;
+}
 img.icon {
 	width: 30px;
 	height: 30px;
@@ -161,10 +166,6 @@ a:hover {
 	font-size: 20px;
 	padding: 10px 10px 30px 10px;
 }
-#debrief {
-	font-size: 20px;
-	padding: 30px 0px 30px 0px;
-}
 #text1a, #text2, #text3, #text4, #text5, #debrief, #confidencepoll {
 	display: none;
 }
@@ -180,15 +181,26 @@ a:hover {
 .red  { color: red; }
 .left { float: left; }
 .right { float: right; }
-#rules {
-	text-align: left;
-	margin: 30px 0px 30px 0px;
-        padding: 15px 25px 15px 25px;	
-	background-color: #DFDFDF;
-	border: 1px solid gray;
+
+div#rollover-container {
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        width: 500px;
+        opacity: 0.25;
 }
-.rollover { cursor:pointer;float: left; width: 50px; padding: 10px; font-size: 18px; }
+.rollover {
+        cursor: pointer;
+        float: left;
+        padding: 15px;
+        margin: 3px;
+        font-size: 18px;
+}
 .rollover.selected { background-color: #bbb;  }
+
+
 #identry {
         margin: 30px 0px 30px 0px;
         background-color: #DFDFDF;
@@ -196,3 +208,10 @@ a:hover {
         padding: 20px 40px 20px 40px;
         font-size: 18px;
 }}
+#rules {
+	text-align: left;
+	margin: 30px 0px 30px 0px;
+        padding: 15px 25px 15px 25px;	
+	background-color: #DFDFDF;
+	border: 1px solid gray;
+}

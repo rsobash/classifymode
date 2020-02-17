@@ -1,19 +1,12 @@
 $(document).ready(function(){
-   /*         
   userid = 1;
   username = "sobash";
   $("#text1").hide();
   $("#text2").hide();
   $("#img-container, #text-container").show();
   newTrial(event);
-*/
-  $("#continue").submit(function(event){
-      //event.preventDefault();
-      $("#text1").hide();
-      $("#img-container, #text-container").show();
-      newTrial(event);
-  });
-
+ 
+  // button to submit user credentials and return confirmation 
   $("#text1button").click(function(event){
       //event.preventDefault();
       $("#intro1text").empty();
@@ -31,6 +24,7 @@ $(document).ready(function(){
       }, dataType='json');
   });
 
+  // button to advance past instructions and show storms
   $("#text2button").click(function(event){
       //event.preventDefault(); 
       $("#img-container, #text-container").show();
@@ -55,9 +49,28 @@ $(document).ready(function(){
   
   $("button.submitbutton").click(sendDecision);
     
-  $("div#cref").click(function() { prefix = ""; loadImages(); });
-  $("div#t2").click(function() { prefix = "t2_"; loadImages(); });
-  
+  $("div#cref").click(function() {
+      $("div.rollover.field.selected").removeClass('selected');
+      $("div#cref").addClass('selected');
+      prefix = "";
+      loadImages(); 
+  });
+
+  $("div#t2").click(function() {
+      $("div.rollover.field.selected").removeClass('selected');
+      $("div#t2").addClass('selected');
+      prefix = "t2_";
+      loadImages();
+  });
+
+  $("div#img-container").hover( 
+      function() {
+          $("div#rollover-container").fadeTo(100, 1.0);
+      }, function() {
+          $("div#rollover-container").fadeTo(100, 0.25);
+      }
+  );
+ 
 });
 
 function sendDecision(event){
@@ -110,6 +123,7 @@ function displayTrial(data) {
     idx = 2;
     $("div.rollover.selected").removeClass('selected');
     $("div#p0").addClass('selected');
+    $("div#cref").addClass('selected');
 
     loadImages();
     $("button").removeClass('selected');
@@ -153,7 +167,7 @@ function loadImages() {
                 var fcsthr = $( this ).attr('id');
 
                 // change class for rollover
-                $("div.rollover").removeClass("selected");
+                $("div.rollover.hour").removeClass("selected");
                 $( this ).addClass("selected");
 
                 if (fcsthr == "m2") { idx = 0; }
