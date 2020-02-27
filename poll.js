@@ -1,19 +1,20 @@
 $(document).ready(function(){
+/*
   userid = 1;
   username = "sobash";
   $("#text1").hide();
   $("#text2").hide();
   $("#img-container, #text-container").show();
   newTrial(event);
- 
+*/
   // button to submit user credentials and return confirmation 
   $("#text1button").click(function(event){
       //event.preventDefault();
-      $("#intro1text").empty();
       var id = $("#idnumber").val();
       var senddata = { 'id' : id };
       $.post("backend.php", senddata, function(data) {
          if (data['verify'] < 1) {
+            $("#intro1text").empty();
             $("#intro1text").append("Invalid username");
          } else {
             userid = data['id'];
@@ -67,7 +68,10 @@ $(document).ready(function(){
       function() {
           $("div#rollover-container").fadeTo(100, 1.0);
       }, function() {
+          $('img#fcstimage').attr("src", window.imagelist[2]);
           $("div#rollover-container").fadeTo(100, 0.25);
+          $("div.rollover.selected.hour").removeClass('selected');
+          $("div#p0").addClass('selected');
       }
   );
  
@@ -78,10 +82,8 @@ function sendDecision(event){
       //event.preventDefault();
       var senddata = { 'label': label, 'thisid': thisid, 'userid': userid, 'conf':conf }
 
-      console.log(senddata);
       // once this label is stored in database, then request new storm
       $.post("backend.php", senddata, function() { 
-          console.log('test');
           newTrial(event)
       }, dataType='json');
   }

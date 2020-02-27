@@ -16,8 +16,8 @@ session_start();
 <div id="container">
 
 <div id="header">
-	<div class="mainheader" style="float:left;width:800px;"><img src="noaa.png" style="width:4%;padding-right:10px;"><img src="ncar.jpg" style="width:10%; padding-right:10px;"><a href="">Classifying convective mode in CAMs</a></div>
-        <div style="font-size:13px;color:black;float:right;"><span class="username"></span><br/><span class="numclassified"></span></div>
+	<div id="leftheader"><img src="noaa.png" style="width:4%;padding-right:10px;"><img src="ncar.jpg" style="width:10%; padding-right:10px;"><a href="">Classifying convective mode in CAMs</a></div>
+        <div id="rightheader"><span class="username"></span><br/><span class="numclassified"></span></div>
 </div>
 
 <div id="main">
@@ -40,19 +40,15 @@ session_start();
 </div> <!-- end text1 -->
 
 <div id="text2">
-
 <div id="rules">
-You will be presented with a series of images of convective storms that were extracted from 3-km WRF simulations of a large number of convective weather events.<br/><br/>
-Using your meteorological knowledge and available imagery, you will place each storm in 1 primary category, with a secondary category available as well.<br/><br/>
-
-The primary category includes:
-<ul>
-<li>Quasi-linear convective system</li>
-<li>Supercell</li>
-<li>Disorganized</li>
-</ul>
-Each storm will be located at the center of the image and will be highlighted. The environment surrounding the storm will also be shown.<br/><br/>
-In addition to the classification, you will provide a confidence level of your classification, on a scale from 1-5.<br/><br/>
+<h2>Thanks for your interest in participating in the classifying convective mode in convection-allowing models project!</h2>
+You will be presented with a series of images of simulated convective storms that were extracted from 3-km WRF model simulations across a diverse collection of convective events that occurred within the conterminous United States.<br/><br/>
+Using your meteorological knowledge and available imagery, you will label the convective mode of each simulated storm. Three primary categories (quasi-linear convective system, supercell, and disorganized) are used for classification and were chosen to mimic the classifications used in <a href="https://journals.ametsoc.org/doi/full/10.1175/WAF-D-11-00115.1">Smith et al. (2012)</a>. Subcategories exist that provide added detail within each of the three primary categories. An annotated version of the classification interface is shown below:<br/><br/>
+<img src="classify.png" style="display:block;margin:0 auto;width:60%;"/><br/>
+Each storm is located at the center of the image and is outlined with a thick black contour. The images contain a filled composite reflectivity field, 10-m surface wind barbs, and both positive and negative 2–5-km updraft helicity contours. Other imagery includes 2-m temperature, with composite reflectivity contours overlaid.<br/><br/>
+To help with classification, images 2 hours before and after the storm can be accessed with rollover links. There often will be other storms within each image; <b><i>only classify the storm that is outlined with a black contour at the central time.</b></i><br/><br/>
+In addition to the mode classification, you will provide a confidence level on a scale of 1-5 (5 indicating high confidence, and 1 indicating low confidence). <b><i>You must select one mode classification and a confidence rating for each storm to proceed to the next storm.</b></i> If you are unsure of how to classify a particular storm, provide your best guess for the classification and indicate your uncertainty with a low confidence rating.<br/><br/>
+Please direct any questions or feedback to sobash@ucar.edu. Thanks again for contributing! Click "Begin" below to start classifying.
 </div>
 
 <input id="text2button" type="submit" name="trial" value="Begin"></div>
