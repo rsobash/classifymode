@@ -21,6 +21,12 @@ function newUser() {
     if (!$con) die('Could not connect: ' . mysqli_error());
     mysqli_select_db($con, 'testing');
 
+    # ensure input id consists of 3-12 lowercase alphabetic letters (presumably the users last name)
+    if (!preg_match('/[a-z]{3,12}/', $id)) {
+        print json_encode(array('verify'=>0));
+        exit;
+    }
+
     # ID MUST NOT EXIST IN DATABASE!
     $result = mysqli_query($con, "SELECT * FROM users WHERE username='".$id."'");
     $numrow = mysqli_num_rows($result);
