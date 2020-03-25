@@ -1,25 +1,27 @@
 <?php
 
-#ob_start("ob_gzhandler");
 session_start();
+    
+$server = "127.0.0.1";
+$username = "root";
+$password = "egbdfEGBDF02!";
 
 if (isset($_POST['begin']) || isset($_GET['begin'])) initExperiment();
 else if (isset($_POST['id'])) newUser();
-else if (isset($_GET['reset'])) restartExperiment();
 else if (isset($_GET['label']) || isset($_POST['label'])) storeResult();
-else if (isset($_GET['trial']) || $_POST['trial']) sendNextTrial();
+else if (isset($_GET['trial']) || $_POST['trial']) sendNextStorm();
 else exit;
 
-function restartExperiment() {
-  unset($_SESSION['started']);
+function dbconnect() {
+    global $server, $username, $password;
+    $mysqli = new mysqli($server, $username, $password, 'testing');
+    if ($mysqli->connect_error) exit('Error connecting to database');
+    return $mysqli;
 }
 
-function newUser() {
+function newUser() { 
     $id = $_POST['id'];
- 
-    $con = mysqli_connect('127.0.0.1', 'root', 'egbdfEGBDF02!');
-    if (!$con) die('Could not connect: ' . mysqli_error());
-    mysqli_select_db($con, 'testing');
+    $mysqli = dbconnect();
 
     # ensure input id consists of 3-12 lowercase alphabetic letters (presumably the users last name)
     if (!preg_match('/[a-z]{3,12}/', $id)) {
@@ -27,11 +29,16 @@ function newUser() {
         exit;
     }
 
-    # ID MUST NOT EXIST IN DATABASE!
-    $result = mysqli_query($con, "SELECT * FROM users WHERE username='".$id."'");
-    $numrow = mysqli_num_rows($result);
-    $row    = mysqli_fetch_array($result);
- 
+    # id must already exist in database
+    $stmt = $mysqli->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $numrow = $result->num_rows;
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
     initExperiment($row['id']);
 
     if ($numrow == 1) {
@@ -45,73 +52,63 @@ function newUser() {
 
 function initExperiment($id) {
     $_SESSION['started'] = TRUE;
+    $mysqli = dbconnect();
         
-    $con = mysqli_connect('127.0.0.1', 'root', 'egbdfEGBDF02!');
-    if (!$con) die('Could not connect: ' . mysqli_error());
-    mysqli_select_db($con, 'testing');
-    
     # get list of all storms already classified by this user
-    $result = mysqli_query($con, "SELECT stormnum FROM classify WHERE usernum = '".$id."'");
-        
-    $_SESSION['storms_seen'] = array();
-    while($row = mysqli_fetch_array($result)) {
-        $_SESSION['storms_seen'][] = $row['stormnum'];
-    }
-    # DATABASE CALL: SELECT GROUP from groups
-    # DATABASE CALL: UPDATE num in groups
-    #$result = mysql_query("SELECT * FROM groups ORDER BY numusers ASC, number ASC LIMIT 1");
-    #$row = mysql_fetch_array($result);
-  
-    # DATABASE CALL: INSERT USER INTO users
-    #$result = mysql_query("UPDATE users SET group_type=".$row['number']." WHERE user_num='".$_SESSION['user_num']."'");
+    $stmt = $mysqli->prepare("SELECT count(stormnum) AS count FROM classify WHERE usernum = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
 
-    #print json_encode(array('text'=>$text, 'img'=>$img));
+    $_SESSION['numclassified'] = $row['count'];
+    
+    #$_SESSION['storms_seen'] = array();
+    #while($row = $result->fetch_assoc()) {
+    #    $_SESSION['storms_seen'][] = $row['stormnum'];
+    #} 
+
+    $stmt->close();
 }
 
 function storeResult() {
-  $con = mysqli_connect('127.0.0.1', 'root', 'egbdfEGBDF02!');
-  if (!$con) die('Could not connect: ' . mysqli_error());
-  mysqli_select_db($con, 'testing');
+    $mysqli = dbconnect();
   
-  $time_start = date("Y-m-d H:i:s");
-  $usernum    = $_POST['userid'];
-  $stormnum   = $_POST['thisid'];
-  $label      = $_POST['label'];
-  $conf       = $_POST['conf'];
+    $time_start = date("Y-m-d H:i:s");
+    $usernum    = $_POST['userid'];
+    $stormnum   = $_POST['thisid'];
+    $label      = $_POST['label'];
+    $conf       = $_POST['conf'];
  
-  #$_SESSION['user_num'] = mysqli_insert_id();
-  #$_SESSION['id'] = $id;
-  
-  $_SESSION['storms_seen'][] = $stormnum;
-   
-  $result = mysqli_query($con, "INSERT INTO classify (usernum, stormnum, label, conf, labeltime) VALUES ('".$usernum."', '".$stormnum."', '".$label."', '".$conf."', '".$time_start."')");
-  
-  #mysqli_close($con); 
-  #print json_encode(array('result'=>$result, 'conf'=>$conf));
+    #$_SESSION['storms_seen'][] = $stormnum;
+    $_SESSION['numclassified'] += 1;
+
+    $stmt = $mysqli->prepare("INSERT INTO classify (usernum, stormnum, label, conf, labeltime) VALUES ( ?, ?, ?, ?, ? )");
+    $stmt->bind_param("iisis", $usernum, $stormnum, $label, $conf, $time_start);
+    $stmt->execute();
+    $stmt->close();
 }
 
-function sendNextTrial() {
-  $con = mysqli_connect('127.0.0.1', 'root', 'egbdfEGBDF02!');
-  if (!$con) die('Could not connect: ' . mysqli_error());
-  mysqli_select_db($con, 'testing');
+function sendNextStorm() {
+    $mysqli = dbconnect();
+  
+    # this could slow down in the future when classify/storms tables are large...
+    $stmt = $mysqli->prepare("SELECT * FROM storms WHERE id NOT IN ( SELECT stormnum FROM classify WHERE usernum = ? ) ORDER BY RAND() LIMIT 1");
+    $stmt->bind_param("s", $_GET['userid']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $numrow = $result->num_rows;
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    
+    # check if no storms are returned
+    if ($numrow < 1) $nostorms = true;
+    else $nostorms = false;
 
-  #if (count($_SESSION['storms_seen']) > 0) { 
-  #    $seenstring = implode(',', $_SESSION['storms_seen']);
-  #    $result = mysqli_query($con, "SELECT * FROM storms WHERE id NOT IN (".$seenstring.") ORDER BY RAND() LIMIT 1");
-  #} else {
-  #    $result = mysqli_query($con, "SELECT * FROM storms WHERE id ORDER BY RAND() LIMIT 1");
-  #}
+    #$seenstring = implode(',', $_SESSION['storms_seen']);
+    #print json_encode(array('seenstring'=>$seenstring, 'imgname'=>$row['imgstring'], 'id'=>$row['id'], 'numclassified'=>count($_SESSION['storms_seen'])));
 
-  $userid = $_GET['userid'];
-  $result = mysqli_query($con, "SELECT * FROM storms WHERE id NOT IN (SELECT id FROM classify WHERE usernum = ".$userid.+") ORDER BY RAND() LIMIT 1");
-
-  $numrow = mysqli_num_rows($result);
-  $row = mysqli_fetch_array($result);
-
-  if ($numrow < 1) $nostorms = true;
-  else $nostorms = false;
-
-  print json_encode(array('seenstring'=>$seenstring, 'imgname'=>$row['imgstring'], 'id'=>$row['id'], 'numclassified'=>count($_SESSION['storms_seen'])));
-  #mysqli_close($con); 
+    print json_encode(array('imgname'=>$row['imgstring'], 'id'=>$row['id'], 'numclassified'=>$_SESSION['numclassified']));
 }
 ?>

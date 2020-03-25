@@ -83,7 +83,8 @@ function sendDecision(event){
       var senddata = { 'label': label, 'thisid': thisid, 'userid': userid, 'conf':conf }
 
       // once this label is stored in database, then request new storm
-      $.post("backend.php", senddata, function() { 
+      $.post("backend.php", senddata, function(data) {
+          console.log(data); 
           newTrial(event)
       }, dataType='json');
   }
@@ -100,7 +101,7 @@ function restartExp(event) {
 function newTrial(event) {
   //event.preventDefault();
   // GET USER ID AND INITIAL INFO, SEND TO PHP SCRIPT, RETURN FIRST TRIAL DATA 
-  $.getJSON("backend.php?trial=1&id="+userid, displayTrial);
+  $.getJSON("backend.php?trial=1&userid="+userid, displayTrial);
 }
 
 function displayTrial(data) {
