@@ -79,6 +79,11 @@ function storeResult() {
     $stormnum   = $_POST['thisid'];
     $label      = $_POST['label'];
     $conf       = $_POST['conf'];
+    
+    # make sure all $_POST data conforms to expected format
+    if ( !preg_match('/\d/', $conf) || !preg_match('/[A-Z][1-5]/', $label) || !preg_match('/\d{1,3}/', $usernum) || !preg_match('/\d{1,9}/', $stormnum) ) {
+        exit;
+    }      
  
     #$_SESSION['storms_seen'][] = $stormnum;
     $_SESSION['numclassified'] += 1;
@@ -91,10 +96,16 @@ function storeResult() {
 
 function sendNextStorm() {
     $mysqli = dbconnect();
-  
+
+    # ensure $_GET['userid'] is between 0 and 999
+    if (!preg_match('/\d{1,3}/', $_GET['userid'])) {
+        print json_encode(array('imgname'=>null, 'id'=>null, 'numclassified'=>null));
+        exit;
+    }      
+
     # this could slow down in the future when classify/storms tables are large...
     $stmt = $mysqli->prepare("SELECT * FROM storms WHERE id NOT IN ( SELECT stormnum FROM classify WHERE usernum = ? ) ORDER BY RAND() LIMIT 1");
-    $stmt->bind_param("s", $_GET['userid']);
+    $stmt->bind_param("i", $_GET['userid']);
     $stmt->execute();
     $result = $stmt->get_result();
     
