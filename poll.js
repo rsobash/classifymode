@@ -100,7 +100,7 @@ function restartExp(event) {
 function newTrial(event) {
   //event.preventDefault();
   // GET USER ID AND INITIAL INFO, SEND TO PHP SCRIPT, RETURN FIRST TRIAL DATA 
-  $.getJSON("backend.php?trial=1", displayTrial);
+  $.getJSON("backend.php?trial=1&id="+userid, displayTrial);
 }
 
 function displayTrial(data) {

@@ -95,12 +95,15 @@ function sendNextTrial() {
   if (!$con) die('Could not connect: ' . mysqli_error());
   mysqli_select_db($con, 'testing');
 
-  if (count($_SESSION['storms_seen']) > 0) { 
-      $seenstring = implode(',', $_SESSION['storms_seen']);
-      $result = mysqli_query($con, "SELECT * FROM storms WHERE id NOT IN (".$seenstring.") ORDER BY RAND() LIMIT 1");
-  } else {
-      $result = mysqli_query($con, "SELECT * FROM storms WHERE id ORDER BY RAND() LIMIT 1");
-  }
+  #if (count($_SESSION['storms_seen']) > 0) { 
+  #    $seenstring = implode(',', $_SESSION['storms_seen']);
+  #    $result = mysqli_query($con, "SELECT * FROM storms WHERE id NOT IN (".$seenstring.") ORDER BY RAND() LIMIT 1");
+  #} else {
+  #    $result = mysqli_query($con, "SELECT * FROM storms WHERE id ORDER BY RAND() LIMIT 1");
+  #}
+
+  $userid = $_GET['userid'];
+  $result = mysqli_query($con, "SELECT * FROM storms WHERE id NOT IN (SELECT id FROM classify WHERE usernum = ".$userid.+") ORDER BY RAND() LIMIT 1");
 
   $numrow = mysqli_num_rows($result);
   $row = mysqli_fetch_array($result);
